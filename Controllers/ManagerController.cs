@@ -31,26 +31,32 @@ namespace PDFHelper.Controllers
                 var html = reader.ReadToEnd();
                 var AfterHtml = ReplaceHtml(html, model);
 
-                string[] htmlTextArr = Regex.Split(AfterHtml, "##", RegexOptions.IgnoreCase);
+                //string[] htmlTextArr = Regex.Split(AfterHtml, "##", RegexOptions.IgnoreCase);
 
-                var outurl = $"{Upload}{Guid.NewGuid()}.png";
-                string htmlfile = $"{Upload}HtmlTemp/{Guid.NewGuid()}.html";
-                CreateHtml.Create(htmlTextArr[0], htmlfile);
-                CreateHtml.Append(htmlTextArr[1], htmlfile);
-                WebSnapshotsHelper.ConvertStart(htmlfile, outurl, 800, 1000, 800, 1000);
+                //var outurl = $"{Upload}{Guid.NewGuid()}.png";
+                //string htmlfile = $"{Upload}HtmlTemp/{Guid.NewGuid()}.html";
+                //CreateHtml.Create(htmlTextArr[0], htmlfile);
+                //CreateHtml.Append(htmlTextArr[1], htmlfile);
+                //WebSnapshotsHelper.ConvertStart(htmlfile, outurl, 800, 1000, 800, 1000);
 
-                reader.Close();
+                //reader.Close();
 
                 //var outurl = $"{Upload}{Guid.NewGuid()}.png";
                 //WebSnapshotsHelper.ConvertStart(htmlfile, outurl, 800, 5000, 800, 5000);
 
-                //IronPdf = new IronPdfHelper(AfterHtml, Upload, root);
-                //var R = IronPdf.ConvertHtmlToPdf();
+                #region IronPdf
+                IronPdf = new IronPdfHelper(AfterHtml, Upload, root);
+                var R = IronPdf.ConvertHtmlToPdf();
+                #endregion
 
+
+                #region Spire.Pdf
                 //由于Spire.Pdf组件生成的时候会在第一页产生水印 插入新页到第一页后删除即可
                 //var instance = new CreateHeaderFooter(R.Url);
                 //CreateHeaderFooter.Add();
                 //var path = CreateHeaderFooter.Remove();
+                #endregion
+
 
                 #region 因为上传到文件服务器的可读性问题。暂时取消上传文件服务器 
                 //var base64 = FileHelper.FileToBase64(path);
@@ -58,7 +64,7 @@ namespace PDFHelper.Controllers
                 //var file = JsonConvert.DeserializeObject<ImageResponse>(FileUploadResult);
                 #endregion
 
-                return new Result<string> { Success = true, Message = "", Data = "" };
+                return new Result<string> { Success = true, Message = "", Data = R };
             }
         }
 
