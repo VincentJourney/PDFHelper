@@ -23,7 +23,7 @@ namespace PDFHelper.Controllers
         [HttpPost]
         public Result<string> ConvertHTMLToPDF([FromBody]OrderPayingToPDFInfo model)
         {
-            var temp = $@"{root}Content\PDFHtmlTemp\SaleOrderTemplate2.html";
+            var temp = $@"{root}Content\PDFHtmlTemp\SaleOrderTemplate.html";
             var Upload = $@"{root}Content\UploadFile\";
 
             using (StreamReader reader = new StreamReader(temp))
