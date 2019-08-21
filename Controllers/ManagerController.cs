@@ -44,8 +44,7 @@ namespace PDFHelper.Controllers
                 //var outurl = $"{Upload}{Guid.NewGuid()}.png";
                 //WebSnapshotsHelper.ConvertStart(htmlfile, outurl, 800, 5000, 800, 5000);
 
-                //IronPdf = new IronPdfHelper(AfterHtml, Upload, root);
-                //var R = IronPdf.ConvertHtmlToPdf();
+
 
                 //由于Spire.Pdf组件生成的时候会在第一页产生水印 插入新页到第一页后删除即可
                 //var instance = new CreateHeaderFooter(R.Url);
