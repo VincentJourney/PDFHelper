@@ -14,7 +14,6 @@ namespace PDFHelper.Controllers
 {
     public class ManagerController : ApiController
     {
-        private HtmlToPdfHelper pdfHelper;
         private IronPdfHelper IronPdf;
 
         private static string UploadUrl = System.Configuration.ConfigurationManager.AppSettings["FileUploadUrl"];
@@ -30,45 +29,11 @@ namespace PDFHelper.Controllers
             {
                 var html = reader.ReadToEnd();
                 var AfterHtml = ReplaceHtml(html, model);
-
-                //string[] htmlTextArr = Regex.Split(AfterHtml, "##", RegexOptions.IgnoreCase);
-
-                //var outurl = $"{Upload}{Guid.NewGuid()}.png";
-                //string htmlfile = $"{Upload}HtmlTemp/{Guid.NewGuid()}.html";
-                //CreateHtml.Create(htmlTextArr[0], htmlfile);
-                //CreateHtml.Append(htmlTextArr[1], htmlfile);
-                //WebSnapshotsHelper.ConvertStart(htmlfile, outurl, 800, 1000, 800, 1000);
-
-                //reader.Close();
-
-                //var outurl = $"{Upload}{Guid.NewGuid()}.png";
-                //WebSnapshotsHelper.ConvertStart(htmlfile, outurl, 800, 5000, 800, 5000);
-
-                #region IronPdf
                 IronPdf = new IronPdfHelper(AfterHtml, Upload, root);
                 var R = IronPdf.ConvertHtmlToPdf();
-                #endregion
-
-
-                #region Spire.Pdf
-                //由于Spire.Pdf组件生成的时候会在第一页产生水印 插入新页到第一页后删除即可
-                //var instance = new CreateHeaderFooter(R.Url);
-                //CreateHeaderFooter.Add();
-                //var path = CreateHeaderFooter.Remove();
-                #endregion
-
-
-                #region 因为上传到文件服务器的可读性问题。暂时取消上传文件服务器 
-                //var base64 = FileHelper.FileToBase64(path);
-                //var FileUploadResult = FileUpload($"{UploadUrl}/api/file/UploadFile", base64);
-                //var file = JsonConvert.DeserializeObject<ImageResponse>(FileUploadResult);
-                #endregion
-
                 return new Result<string> { Success = true, Message = "", Data = R };
             }
         }
-
-
         /// <summary>
         /// 替换HTML
         /// </summary>
@@ -77,7 +42,6 @@ namespace PDFHelper.Controllers
         /// <returns></returns>
         private string ReplaceHtml(string TempHtml, OrderPayingToPDFInfo model)
         {
-            //var UploadUrl = "http://10.0.8.6:1848";
             TempHtml = TempHtml.Replace("@Name", model.Order.FullName);
             TempHtml = TempHtml.Replace("@OrderNo", model.Order.Code);
             TempHtml = TempHtml.Replace("@Phone", model.Order.MobileNo);
@@ -125,32 +89,5 @@ namespace PDFHelper.Controllers
             TempHtml = TempHtml.Replace("@BtnImg", root);
             return TempHtml;
         }
-
-        /// <summary>
-        /// 文件上传
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="base64Str"></param>
-        /// <returns></returns>
-        private string FileUpload(string url, string base64Str)
-        {
-            try
-            {
-                var request = new
-                {
-                    fileName = Guid.NewGuid().ToString(),
-                    base64Str = base64Str,
-                    sourceSystem = "crm-ocr",
-                    fileDescription = "资源上传图片"
-                };
-                return HttpHelper.HttpPost(url, JsonConvert.SerializeObject(request));
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-
     }
 }
