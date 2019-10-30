@@ -10,18 +10,30 @@ namespace PDFHelper.Models
         public class OrderProduct
         {
             public string Logo { get; set; }
-            public string ProductInfo { get; set; }
+            public string ProductName { get; set; }
+            public string ProductTypeName { get; set; }
+            public string Specifications { get; set; }
+            public string UnitOfMeasure { get; set; }
             public decimal Price { get; set; }
             public decimal Count { get; set; }
             public decimal Amount { get; set; }
             public string Remark { get; set; }
+            public string ProductInfo { get; set; }
         }
+
 
         public class OrderPayingToPDFInfo
         {
             public S_Order Order { get; set; }
             public List<OrderProduct> OrderProductList { get; set; }
             public S_OrderPaying OrderPaying { get; set; }
+            public StoreCustomerInfo StoreCustomerInfo { get; set; }
+            public string PayType { get; set; }
+            public string CashierName { get; set; }
+            /// <summary>
+            /// 首付
+            /// </summary>
+            public decimal DownPayment { get; set; }
         }
         public class S_Order
         {
@@ -278,6 +290,15 @@ namespace PDFHelper.Models
             {
             }
 
+        }
+
+        public class StoreCustomerInfo
+        {
+            public Guid StoreId { get; set; }
+            public Guid CustomerId { get; set; }
+            public string CustomerName { get; set; }
+            public string StoreCode { get; set; }
+            public string ContactNumber { get; set; }
         }
     }
 }
