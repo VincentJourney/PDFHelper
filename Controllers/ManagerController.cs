@@ -51,7 +51,7 @@ namespace PDFHelper.Controllers
             TempHtml = TempHtml.Replace("@DeliverAddress", model.Order.AddressInfo);
             TempHtml = TempHtml.Replace("@SignDate", model.Order.Bizdate.ToString("yyyy-MM-dd hh:mm:ss"));
 
-            TempHtml = TempHtml.Replace("@CustomerName", model.StoreCustomerInfo?.CustomerName ?? "");
+            TempHtml = TempHtml.Replace("@BrandName", model.StoreCustomerInfo?.BrandName ?? "");
             TempHtml = TempHtml.Replace("@StoreCode", model.StoreCustomerInfo?.StoreCode ?? "");
             TempHtml = TempHtml.Replace("@CompanyPhone", model.StoreCustomerInfo?.ContactNumber ?? "");
 
@@ -119,9 +119,9 @@ namespace PDFHelper.Controllers
             TempHtml = TempHtml.Replace("@PaidAmt", model.OrderPaying.PaidAmt.ToString());//本次付款
             var Balance = 0M;
             if (model.OrderPaying.PayingType == 3)//如果此订单是首款
-                Balance = model.Order.TotalAmt ?? 0 - model.DownPayment;
+                Balance = (model.Order.TotalAmt ?? 0) - model.DownPayment;
             else if (model.OrderPaying.PayingType == 1)//如果此订单是尾款
-                Balance = model.Order.TotalAmt ?? 0 - model.DownPayment - model.OrderPaying.PaidAmt ?? 0;
+                Balance = (model.Order.TotalAmt ?? 0) - model.DownPayment - (model.OrderPaying.PaidAmt ?? 0);
 
             TempHtml = TempHtml.Replace("@Balance", Balance.ToString());//欠款
 

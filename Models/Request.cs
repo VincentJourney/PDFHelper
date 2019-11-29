@@ -296,7 +296,7 @@ namespace PDFHelper.Models
         {
             public Guid StoreId { get; set; }
             public Guid CustomerId { get; set; }
-            public string CustomerName { get; set; }
+            public string BrandName { get; set; }
             public string StoreCode { get; set; }
             public string ContactNumber { get; set; }
         }
