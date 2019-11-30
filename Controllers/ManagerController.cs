@@ -19,7 +19,7 @@ namespace PDFHelper.Controllers
         private static string UploadUrl = System.Configuration.ConfigurationManager.AppSettings["FileUploadUrl"];
         private static string SealImgUrl = System.Configuration.ConfigurationManager.AppSettings["SealImgUrl"];
         private static string root = AppDomain.CurrentDomain.BaseDirectory;
-        //private static string root = @"E:\vincent\selfgit储存库\pdfhelper\pdfhelper\";
+        //private static string root = @"E:\Vincent\SelfGit储存库\PDFHelper\PDFHelper\";
         [HttpPost]
         public Result<string> ConvertHTMLToPDF([FromBody]OrderPayingToPDFInfo model)
         {
